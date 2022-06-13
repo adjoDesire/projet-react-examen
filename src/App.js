@@ -10,41 +10,53 @@ import Row from 'react-bootstrap/Row';
 class App extends React.Component {
 
   state = {
-    activities:[],
+    utilisateurs:[],
   }
-
+  
   componentDidMount(){
-    fetch('http://localhost:3000/activities')
+    fetch('http://localhost:3000/utilisateurs')
     .then((response)=>{
       return response.json()
     })
     .then((result) => {
-      this.setState({activities:result})
+      this.setState({utilisateurs:result})
     })
   }
 
   render(){
-    return (<div><Banner />
+    const styles = {
+      border: '1px solid rgba(0, 0, 0, 1)', 
+    };
+    return (
+    <div><Banner />
 
         <div className="App">
-          <Row>
-            {this.state.activities.map((activitie) => (
-              <Col>
-                <li key={activitie.id}>
-                  <p> {activitie.name} </p>
-                  <img src={activitie.image} alt='La maison jungle' className='lmj-logo' />
-                  <p>{activitie.description}</p>
-                  <p> {activitie.category}</p> 
-                  <p className='lmj-sales'>{activitie.keywords}</p>
+          <h1> Liste des Locataires </h1>
+          <Row md={3}>
+            {this.state.utilisateurs.map((utilisateur) => (
+              <Col lg={4} style={styles}>
+                <li key={utilisateur.id}>
+                    <h3>Les infos Personnels Locataire {utilisateur.id}</h3>
+                    <p> Nom : {utilisateur.name} </p>
+                    <p> Username : {utilisateur.username}</p>
+                    <p> Email : {utilisateur.email} </p>
+                    <p> Adresse : {utilisateur.address}</p> 
+                    <p> Telephone : {utilisateur.phone}</p>
+                </li>
+                <li key={utilisateur.id}>
+                    <h3>Les infos de la Compagnie Locataire {utilisateur.id}</h3>
+                    <p> Nom : {utilisateur.company.name} </p>
+                    <p> catchPhrase : {utilisateur.company.catchPhrase}</p>
+                    <p> bs : {utilisateur.company.bs} </p>
                 </li>
               </Col>
             ))}
           </Row>
+
         </div>
       </div>
     )
   }
   
 }
-
 export default App;
